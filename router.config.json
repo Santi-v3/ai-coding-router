@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "freeModels": {
+    "simple": [
+      "kilo-code/kilo-auto/free",
+      "opencode/mimo-v2.6-flash-free",
+      "opencode/inkling",
+      "opencode/nemotron-3.5-lightning-free"
+    ],
+    "medium": [
+      "opencode/deepseek-v4.1-flash-free",
+      "opencode/glm-5.3-flash-free",
+      "opencode/minimax-m3.1-flash-free",
+      "opencode/beam-free"
+    ],
+    "hard": [
+      "opencode/big-pickle",
+      "opencode/nemotron-3.5-super-vl-free",
+      "opencode/deepseek-v4.1-flash-free",
+      "opencode/beam-free"
+    ]
+  },
+  "classification": {
+    "critical": [
+      "driver", "kernel", "registry", "credential", "secret", "authentication",
+      "authorization", "security", "payment", "production", "deployment",
+      "session isolation", "licensing", "privilege", "administrator"
+    ],
+    "hard": [
+      "architecture", "migration", "concurrency", "race condition", "performance",
+      "refactor", "multi-project", "database schema", "protocol", "reverse engineering"
+    ],
+    "medium": [
+      "feature", "bug", "test", "api", "database", "ui", "wpf", "react",
+      "typescript", "powershell", "python", "integration"
+    ]
+  }
+}

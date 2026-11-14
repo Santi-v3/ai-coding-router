@@ -1,0 +1,4 @@
+.agent-runs/
+*.log
+.env
+.env.*
