@@ -1,64 +1,37 @@
-# Santi KI Router — Multi-Agent Workflow Routing
+# AI Coding Router
 
-> A local PowerShell-based router for assigning development tasks to AI coding assistants based on complexity, verification needs and approval requirements.
+A PowerShell prototype that classifies development tasks and selects a local coding-assistant workflow. It explores how task complexity, review and human approval can guide developer automation.
 
-**Focus:** AI Orchestration · Developer Automation · PowerShell · Human-in-the-loop Controls
+## What it does
 
-**Problem and approach:** Different AI development tools have different capabilities and usage limits. This prototype routes tasks according to their risk and complexity, while reserving critical modifications for secondary review and human approval.
+The router reads `router.config.json`, classifies a task using configured keywords or an explicit tier, and proposes a worker and verification route. Its default mode shows the route without applying changes. Plan and apply modes depend on locally installed and authenticated `opencode`, `claude` or `codex` clients. A separate installer adds small policy templates to a target project without overwriting existing files. Runs are written to the target project's `.agent-runs/` directory.
 
-**Maturity:** Personal development prototype. The actual providers available depend on local installations and service access.
+This is a personal prototype: model names and free-provider availability are configuration examples, not guarantees of current access, quality or price.
 
----
+## Structure
 
-## Setup, routing and usage
+- `Santi-KI-Router.ps1`: classification, routing and execution modes.
+- `router.config.json`: tiers, keywords and provider candidates.
+- `Install-ProjectPolicy.ps1`: opt-in project policy templates.
+- `templates/`: the policy files installed in a selected project.
+- `Start-Router.cmd`: Windows command launcher.
 
-Ein lokaler, projektunabhaengiger Aufgaben-Router fuer Claude Code, Codex und kostenlose OpenCode-Modelle.
+## Use
 
-## Routing
-
-| Schwierigkeit | Primaer | Pruefung |
-| --- | --- | --- |
-| einfach | kostenloses Modell | automatische Projekt-Verifikation |
-| mittel | staerkeres kostenloses Modell | unabhaengiges kostenloses Review |
-| schwierig | Claude Sonnet oder Codex | jeweils die andere Haupt-KI |
-| kritisch | Claude/Codex nur im Plan-Modus | zweite Haupt-KI + menschliche Freigabe |
-
-Kritische Aufgaben werden nie automatisch angewendet. Aufgaben zur Umgehung von Lizenzen, Abos, Aktivierung oder Zugangskontrollen werden abgelehnt.
-
-## Verwendung
-
-Die sichere Standardeinstellung zeigt nur die Route an:
+Requires PowerShell 5.1+ and at least one configured coding client for actual execution. Review the script and target project before enabling apply mode.
 
 ```powershell
-& '.\Santi-KI-Router.ps1' -Project 'C:\Pfad\zum\Projekt' -Task 'Fuege einen Export-Button hinzu'
+& './Santi-KI-Router.ps1' -Project 'C:\path\to\project' -Task 'Add an export button'
+& './Santi-KI-Router.ps1' -Project 'C:\path\to\project' -Task 'Analyze the architecture' -Mode plan
+& './Install-ProjectPolicy.ps1' -Project 'C:\path\to\project'
 ```
 
-Plan erstellen oder Aenderungen anwenden:
+Critical tasks are intended for review and human approval. This routing policy is not a security sandbox. Do not put credentials, customer data or confidential code into task descriptions sent to external providers.
 
-```powershell
-& '.\Santi-KI-Router.ps1' -Project 'C:\Pfad\zum\Projekt' -Task 'Analysiere die Architektur' -Mode plan
-& '.\Santi-KI-Router.ps1' -Project 'C:\Pfad\zum\Projekt' -Task 'Ergaenze einen kleinen Test' -Mode apply
-```
+## Status and verification
 
-Route gezielt steuern:
+Prototype. There is no automated test suite or CI workflow in this repository; commands were checked against the repository files but were not executed in this environment because PowerShell and the coding clients are unavailable here.
 
-```powershell
-& '.\Santi-KI-Router.ps1' -Project $PWD -Task 'Aufgabe' -Tier hard -MainAI codex -Mode plan
-& '.\Santi-KI-Router.ps1' -Project $PWD -Task 'Aufgabe' -Tier hard -MainAI claude -Mode plan
-```
+## License and author
 
-## Neues Projekt anbinden
-
-```powershell
-& '.\Install-ProjectPolicy.ps1' -Project 'C:\Pfad\zum\Projekt'
-```
-
-Das installiert kleine `AGENTS.md`- und `CLAUDE.md`-Dateien in das Projekt. Vorhandene Dateien werden nicht ueberschrieben.
-
-## Voraussetzungen
-
-- PowerShell 5.1 oder neuer
-- mindestens einer der Clients: `opencode`, `claude`, `codex`
-- Anmeldung beim jeweiligen Dienst, wenn Claude oder Codex genutzt wird
-
-Alle Laufprotokolle landen im Zielprojekt unter `.agent-runs/`. Geheimnisse gehoeren weder in Aufgaben noch in Commits.
+MIT; see [LICENSE](LICENSE). Created by **Santino Burkhardt** as a personal developer automation project, independent of his employer.
