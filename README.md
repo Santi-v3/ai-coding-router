@@ -1,4 +1,16 @@
-# Santi KI Router
+# Santi KI Router — Multi-Agent Workflow Routing
+
+> A local PowerShell-based router for assigning development tasks to AI coding assistants based on complexity, verification needs and approval requirements.
+
+**Focus:** AI Orchestration · Developer Automation · PowerShell · Human-in-the-loop Controls
+
+**Problem and approach:** Different AI development tools have different capabilities and usage limits. This prototype routes tasks according to their risk and complexity, while reserving critical modifications for secondary review and human approval.
+
+**Maturity:** Personal development prototype. The actual providers available depend on local installations and service access.
+
+---
+
+## Setup, routing and usage
 
 Ein lokaler, projektunabhaengiger Aufgaben-Router fuer Claude Code, Codex und kostenlose OpenCode-Modelle.
 
